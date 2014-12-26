@@ -1,13 +1,14 @@
 require 'delayed_job'
+require 'mongoid'
 
 class Delayed::Job
   class DelayedJobFake < Array
-    # fake out arel
-    def order(*args)
+    # fake out Mongoid
+    def desc(*args)
       DelayedJobFake.new
     end
 
-    def offset(*args)
+    def skip(*args)
       DelayedJobFake.new
     end
 
@@ -24,7 +25,7 @@ class Delayed::Job
     0
   end
 
-  def self.order(*args)
+  def self.desc(*args)
     DelayedJobFake.new
   end
 

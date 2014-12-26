@@ -1,6 +1,5 @@
 require 'sinatra/base'
 require 'active_support'
-require 'active_record'
 require 'delayed_job'
 
 class DelayedJobWeb < Sinatra::Base
@@ -104,7 +103,7 @@ class DelayedJobWeb < Sinatra::Base
 
   %w(enqueued working pending failed).each do |page|
     get "/#{page}" do
-      @jobs     = delayed_jobs(page.to_sym, @queues).order('created_at desc, id desc').offset(start).limit(per_page)
+      @jobs     = delayed_jobs(page.to_sym, @queues).desc(:created_at, :id).skip(start).limit(per_page)
       @all_jobs = delayed_jobs(page.to_sym, @queues)
       erb page.to_sym
     end
@@ -143,9 +142,9 @@ class DelayedJobWeb < Sinatra::Base
     rel =
       case type
       when :working
-        rel.where('locked_at IS NOT NULL')
+        rel.where(:locked_at.ne => nil)
       when :failed
-        rel.where('last_error IS NOT NULL')
+        rel.where(:last_error.ne => nil)
       when :pending
         rel.where(:attempts => 0, :locked_at => nil)
       else

@@ -24,10 +24,11 @@ Gem::Specification.new do |gem|
   ]
 
   gem.add_runtime_dependency "sinatra",      [">= 1.4.4"]
-  gem.add_runtime_dependency "activerecord", ["> 3.0.0"]
+  gem.add_runtime_dependency "mongoid",      ["~> 4.0.0"]
   gem.add_runtime_dependency "delayed_job",  ["> 2.0.3"]
 
-  gem.add_development_dependency "minitest",  ["~> 4.2"]
-  gem.add_development_dependency "rack-test", ["~> 0.6"]
-  gem.add_development_dependency "rails",     ["~> 4.0"]
+  gem.add_development_dependency "minitest",   ["~> 4.2"]
+  gem.add_development_dependency "rack-test",  ["~> 0.6"]
+  gem.add_development_dependency "actionpack", ["~> 4.0"]
+  gem.add_development_dependency "railties",   ["~> 4.0"]
 end

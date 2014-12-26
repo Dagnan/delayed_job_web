@@ -13,8 +13,11 @@ class TestDelayedJobWeb < MiniTest::Unit::TestCase
   def test_requeue_all
 
     dataset = Minitest::Mock.new
-    where = lambda { | criteria |
-      criteria.must_equal 'last_error IS NOT NULL'
+    where = lambda { |criteria|
+      first_criteria = criteria.keys[0]
+      first_criteria.name.must_equal :last_error
+      first_criteria.operator.must_equal '$ne'
+      criteria.values[0].must_equal nil
       dataset
     }
 
